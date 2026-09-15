@@ -1,0 +1,360 @@
+Design and build the FIRST 4 SECTIONS of the “About Skyline” page for SKYLINE HOLDING.
+
+You are acting as a world-class creative director, senior UI/UX designer, motion designer, and frontend engineer.
+
+The result must feel like an award-winning international investment holding website:
+premium, editorial, luxurious, intelligent, institutional, cinematic, modern, and highly polished.
+
+IMPORTANT:
+Do NOT create a generic “About Us” page.
+Do NOT use repetitive cards.
+Do NOT use oversized fashion-style headings.
+Do NOT use cheap gold effects, excessive gradients, crypto aesthetics, or SaaS-style layouts.
+
+Keep Skyline Holding’s existing brand system:
+
+HEADINGS:
+Instrument Serif
+
+BODY / UI:
+Inter
+
+COLORS:
+Obsidian Black #080A0D
+Deep Midnight #0B1017
+Midnight Navy #0B1624
+Deep Atlantic Blue #12304A
+Champagne Gold #C7A86B
+Metallic Gold #D8BD82
+Warm Ivory #F5F2EA
+Soft Off-White #F8F7F3
+White #FFFFFF
+Dark Text #12161B
+Muted Light Text #9DA5AE
+
+Use gold only as a restrained accent.
+
+Use GSAP + ScrollTrigger where appropriate.
+
+All reveal animations, hover transitions, image transitions, and section changes must feel:
+smooth
+controlled
+natural
+premium
+cinematic
+
+Avoid:
+bouncing
+random movement
+excessive scaling
+heavy glow
+over-animation
+
+Use easing such as:
+power3.out
+power4.out
+expo.out
+
+Respect prefers-reduced-motion.
+
+==================================================
+SECTION 1 — ABOUT PAGE HERO
+==================================================
+
+Create a cinematic About page hero that feels completely different from the homepage hero.
+
+Do NOT use a basic “text left + image right” layout.
+
+Use a more editorial, layered, or split composition.
+
+EYEBROW:
+ABOUT SKYLINE
+
+MAIN HEADLINE:
+Built with perspective.
+Designed for the long term.
+
+SUPPORTING COPY:
+Skyline Holding is an independent investment holding company focused on building enduring value across businesses, real assets and transformative industries.
+
+SECONDARY STATEMENT:
+Capital. Strategy. Perspective.
+
+VISUAL DIRECTION:
+Use premium architectural, skyline, institutional, or structural imagery.
+
+Avoid:
+handshakes
+boardrooms
+traders
+laptops
+generic finance stock photography
+
+Use:
+layered imagery
+subtle parallax
+dark cinematic overlay
+fine gold lines
+editorial typography
+refined depth
+
+SCROLL ANIMATION:
+- reveal headline line-by-line
+- slowly scale hero image
+- fade supporting copy upward
+- subtly move visual layers
+- transition smoothly into next section
+
+Hero should feel calm, powerful, and established.
+
+==================================================
+SECTION 2 — WHO WE ARE
+==================================================
+
+BACKGROUND:
+Warm Ivory #F5F2EA
+
+This section should feel like a premium annual report or luxury editorial spread.
+
+EYEBROW:
+WHO WE ARE
+
+MAIN STATEMENT:
+An independent holding company built around long-term thinking, disciplined capital and active value creation.
+
+SUPPORTING COPY:
+Skyline brings together investment expertise, strategic insight and an international perspective to identify opportunities, support businesses and build lasting enterprise value.
+
+SECONDARY COPY:
+We invest selectively, think beyond short-term cycles and focus on opportunities where our capital and capabilities can make a meaningful difference.
+
+LAYOUT:
+Use an asymmetric editorial grid.
+
+Suggested composition:
+- large statement on one side
+- supporting copy on opposite side
+- one premium architectural/detail image integrated into the layout
+- strong whitespace
+- refined lines and spacing
+
+Optional:
+Use the word “PERSPECTIVE” very subtly in the background at extremely low opacity.
+
+Do NOT use cards.
+
+SCROLL ANIMATION:
+- small eyebrow appears first
+- headline reveals with masked text animation
+- image reveals using clip-path
+- gold line grows horizontally
+- paragraph fades/slides in last
+
+Keep movement elegant and restrained.
+
+==================================================
+SECTION 3 — OUR PURPOSE
+==================================================
+
+BACKGROUND:
+Deep Midnight / Obsidian Black
+
+EYEBROW:
+OUR PURPOSE
+
+MAIN HEADLINE:
+To build value that extends beyond capital.
+
+SUPPORTING COPY:
+We believe meaningful investment is not defined only by financial return. It is defined by the ability to strengthen businesses, create resilience, support innovation and build something that can endure.
+
+CORE PRINCIPLES:
+
+LONG-TERM VALUE
+We focus on decisions that can compound value over time.
+
+ACTIVE OWNERSHIP
+Where appropriate, we work alongside businesses rather than simply providing capital.
+
+STRATEGIC DISCIPLINE
+Every opportunity is evaluated with clarity, patience and a clear investment thesis.
+
+ENDURING RELATIONSHIPS
+We build relationships around alignment, trust and shared ambition.
+
+DESIGN:
+Do NOT place these into standard cards.
+
+Create a scroll-driven editorial progression.
+
+Preferred desktop layout:
+- left side: sticky headline / purpose statement
+- right side: principles reveal vertically as user scrolls
+
+Each active principle should:
+- become brighter
+- reveal supporting description
+- show a refined gold line/accent
+- subtly shift in position
+- make inactive items slightly muted
+
+Use thin separators and strong typography.
+
+MOBILE:
+Remove sticky behavior.
+Use a clean stacked vertical sequence.
+No hover dependency.
+
+SCROLL EFFECTS:
+- principle activation
+- line growth
+- subtle background tonal shifts
+- controlled fade/translate reveals
+
+==================================================
+SECTION 4 — VISION & MISSION
+==================================================
+
+This section must NOT look like two boring side-by-side text cards.
+
+Create a sophisticated dual narrative.
+
+Use a split light/dark composition or a light-to-dark transition.
+
+VISION SIDE:
+
+EYEBROW:
+OUR VISION
+
+HEADLINE:
+To become a trusted long-term investment partner across markets, industries and generations.
+
+COPY:
+We aim to build a diversified international platform recognized for thoughtful capital allocation, strong partnerships and the ability to create lasting value across changing market cycles.
+
+MISSION SIDE:
+
+EYEBROW:
+OUR MISSION
+
+HEADLINE:
+To identify opportunity, deploy capital intelligently and actively support long-term growth.
+
+COPY:
+We combine rigorous analysis, strategic expertise and an owner’s mindset to invest selectively and support businesses, assets and partners with conviction.
+
+DESIGN DIRECTION:
+Create a visually strong split composition.
+
+One side can be:
+Warm Ivory
+
+The other:
+Midnight Navy / Obsidian
+
+Use:
+large but balanced typography
+strong contrast
+refined whitespace
+gold detail lines
+one premium architectural/horizon image that visually connects both sides
+
+SCROLL EXPERIENCE:
+- Vision reveals first
+- central visual transitions
+- Mission appears second
+- background tone changes gradually
+- gold line/horizon element connects both narratives
+
+Keep the animation smooth, cinematic, and premium.
+
+==================================================
+TYPOGRAPHY
+==================================================
+
+Use Instrument Serif for:
+hero title
+major section titles
+large editorial statements
+
+Use Inter for:
+body text
+labels
+navigation
+buttons
+supporting content
+
+Keep heading sizes refined.
+
+Suggested desktop sizes:
+Hero: clamp(56px, 6vw, 84px)
+Main section titles: clamp(42px, 4.5vw, 60px)
+Secondary titles: clamp(30px, 3vw, 44px)
+Body: 17–19px
+
+Mobile body:
+minimum 16px
+
+Do not use huge 100px+ headings unless absolutely necessary.
+
+==================================================
+RESPONSIVENESS
+==================================================
+
+Fully optimize for:
+
+1920px
+1440px
+1280px
+1024px
+820px
+768px
+430px
+390px
+375px
+360px
+
+Mobile should feel intentionally designed.
+
+Do NOT simply shrink desktop layouts.
+
+On mobile:
+- remove complex sticky/pinned behavior if needed
+- stack content naturally
+- maintain strong hierarchy
+- keep side padding around 20px
+- keep touch targets at least 44px
+- avoid horizontal overflow
+- avoid awkward line breaks
+- keep animations simpler and smoother
+
+Use GSAP matchMedia() for different animation behavior on desktop and mobile.
+
+==================================================
+FINAL QUALITY STANDARD
+==================================================
+
+These first four sections should feel like four chapters of one premium story:
+
+Hero:
+Cinematic and powerful
+
+Who We Are:
+Editorial and intelligent
+
+Our Purpose:
+Strategic and immersive
+
+Vision & Mission:
+Refined and aspirational
+
+The page should feel like:
+a premium investment house
++
+a luxury editorial publication
++
+a modern institutional brand
+
+Do NOT build the remaining About page sections yet.
+
+Only complete these first four sections to the highest possible design, motion, responsiveness, and frontend quality.

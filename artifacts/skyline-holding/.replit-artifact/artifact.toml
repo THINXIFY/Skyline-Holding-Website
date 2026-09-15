@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Skyline Holding"
+description = "A corporate holding company website for Skyline Holding, presenting its investment sectors, philosophy, partnerships, and global presence."
+version = "1.0.0"
+id = "artifacts/skyline-holding"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 22239
+
+[services.development]
+run = "pnpm --filter @workspace/skyline-holding run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/skyline-holding", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/skyline-holding/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "22239"
+BASE_PATH = "/"
