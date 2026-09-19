@@ -84,7 +84,7 @@ export function WaysToConnect() {
               aria-haspopup="dialog"
               className="wc-copy group mt-8 inline-flex min-h-11 items-center gap-2 rounded-full bg-[#C7A86B] px-6 py-3 font-[Inter] text-[13.5px] font-semibold text-[#12161B] transition-transform duration-300 hover:-translate-y-0.5"
             >
-              Request Private Access
+              Request More Info
               <ArrowRight
                 className="size-4 transition-transform duration-300 group-hover:translate-x-0.5"
                 strokeWidth={2}
