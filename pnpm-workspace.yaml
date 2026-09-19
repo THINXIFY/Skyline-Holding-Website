@@ -1,0 +1,52 @@
+# This project is a standalone package. This file exists solely so pnpm can
+# resolve the `catalog:` version references in package.json (a pattern
+# carried over from the monorepo this project was originally developed in).
+packages:
+  - "."
+
+catalog:
+  "@replit/vite-plugin-cartographer": ^0.5.21
+  "@replit/vite-plugin-runtime-error-modal": ^0.0.6
+  "@tailwindcss/vite": ^4.1.14
+  "@types/node": ^25.3.3
+  "@types/react": ^19.2.0
+  "@types/react-dom": ^19.2.0
+  "@vitejs/plugin-react": ^5.0.4
+  class-variance-authority: ^0.7.1
+  clsx: ^2.1.1
+  framer-motion: ^12.23.24
+  lucide-react: ^0.545.0
+  react: 19.1.0
+  react-dom: 19.1.0
+  tailwind-merge: ^3.3.1
+  tailwindcss: ^4.1.14
+  vite: ^7.3.2
+  zod: ^3.25.76
+
+overrides:
+  # This project targets Windows/Linux dev environments; excluding the other
+  # platform-specific optional binaries keeps installs smaller and faster.
+  "esbuild>@esbuild/darwin-arm64": "-"
+  "esbuild>@esbuild/darwin-x64": "-"
+  "esbuild>@esbuild/freebsd-arm64": "-"
+  "esbuild>@esbuild/freebsd-x64": "-"
+  "esbuild>@esbuild/linux-arm": "-"
+  "esbuild>@esbuild/linux-arm64": "-"
+  "esbuild>@esbuild/linux-ia32": "-"
+  "esbuild>@esbuild/linux-loong64": "-"
+  "esbuild>@esbuild/linux-mips64el": "-"
+  "esbuild>@esbuild/linux-ppc64": "-"
+  "esbuild>@esbuild/linux-riscv64": "-"
+  "esbuild>@esbuild/linux-s390x": "-"
+  "esbuild>@esbuild/netbsd-arm64": "-"
+  "esbuild>@esbuild/netbsd-x64": "-"
+  "esbuild>@esbuild/openbsd-arm64": "-"
+  "esbuild>@esbuild/openbsd-x64": "-"
+  "esbuild>@esbuild/sunos-x64": "-"
+  "esbuild>@esbuild/win32-arm64": "-"
+  "esbuild>@esbuild/win32-ia32": "-"
+  "esbuild>@esbuild/aix-ppc64": "-"
+  "esbuild>@esbuild/android-arm": "-"
+  "esbuild>@esbuild/android-arm64": "-"
+  "esbuild>@esbuild/android-x64": "-"
+  "esbuild>@esbuild/openharmony-arm64": "-"
