@@ -1,0 +1,8 @@
+# Keep shell scripts and server config with LF line endings even when the
+# repository is edited on Windows - CRLF breaks them on Linux.
+*.sh      text eol=lf
+*.conf    text eol=lf
+*.cjs     text eol=lf
+.env.example text eol=lf
+.nvmrc    text eol=lf
+deployment/** text eol=lf

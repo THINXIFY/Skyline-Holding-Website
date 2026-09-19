@@ -183,3 +183,84 @@
     pointer-events: none;
   }
 }
+
+@keyframes hero-particle-drift {
+  0% { transform: translate3d(0, 0, 0); opacity: 0; }
+  12% { opacity: var(--particle-opacity, .25); }
+  50% { transform: translate3d(var(--particle-dx), var(--particle-dy), 0); }
+  88% { opacity: var(--particle-opacity, .25); }
+  100% { transform: translate3d(0, 0, 0); opacity: 0; }
+}
+
+@keyframes skyline-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.hp-marquee-track {
+  animation: skyline-marquee 38s linear infinite;
+}
+
+.hp-marquee-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes ri-particle-drift {
+  0%, 100% { transform: translate3d(0, 0, 0); opacity: 0; }
+  15% { opacity: .18; }
+  50% { transform: translate3d(6px, -14px, 0); opacity: .22; }
+  85% { opacity: .18; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---------------------------------------------------------------------
+   Global scrollbar: thin, dark, champagne-gold thumb. Lenis handles the
+   smoothing in JS, so scroll-behavior stays "auto" here to avoid the two
+   fighting each other on programmatic/anchor jumps.
+   --------------------------------------------------------------------- */
+html {
+  scroll-behavior: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(199, 168, 107, 0.4) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(199, 168, 107, 0.4);
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(216, 189, 130, 0.65);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Utility for inner horizontally-scrolling elements (e.g. drag/swipe card
+   rows) that use their own custom controls instead of a native scrollbar. */
+.no-native-scrollbar {
+  scrollbar-width: none;
+}
+
+.no-native-scrollbar::-webkit-scrollbar {
+  display: none;
+}

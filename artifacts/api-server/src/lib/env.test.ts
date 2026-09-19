@@ -1,0 +1,114 @@
+import path from "node:path";
+import { afterEach, describe, expect, it } from "vitest";
+import { loadRequestInfoEnv } from "./env";
+import { findPackageRoot } from "./documents";
+
+// Scoped to only the keys this suite touches, and restored individually,
+// rather than blanket-deleting and restoring all of process.env: Vitest's
+// thread pool can run multiple test files in the same worker thread, and a
+// blanket reset here could wipe or mismatch env state a sibling file relies
+// on if it happens to share a worker with this one.
+const ENV_KEYS = [
+  "OTP_HASH_SECRET",
+  "REQUEST_INFO_OTP_TTL_MINUTES",
+  "REQUEST_INFO_MAX_ATTEMPTS",
+  "MAIL_PROVIDER",
+  "RESEND_API_KEY",
+  "MAIL_FROM_EMAIL",
+  "PUBLIC_SITE_URL",
+  "NODE_ENV",
+  "REQUEST_INFO_DATA_DIR",
+] as const;
+
+const ORIGINAL_VALUES = Object.fromEntries(ENV_KEYS.map((key) => [key, process.env[key]]));
+
+function resetEnv() {
+  for (const key of ENV_KEYS) {
+    const original = ORIGINAL_VALUES[key];
+    if (original === undefined) delete process.env[key];
+    else process.env[key] = original;
+  }
+}
+
+describe("loadRequestInfoEnv", () => {
+  afterEach(resetEnv);
+
+  it("throws when OTP_HASH_SECRET is missing", () => {
+    delete process.env.OTP_HASH_SECRET;
+    expect(() => loadRequestInfoEnv()).toThrow(/OTP_HASH_SECRET/);
+  });
+
+  it("applies defaults for optional settings", () => {
+    process.env.OTP_HASH_SECRET = "test-secret";
+    delete process.env.REQUEST_INFO_OTP_TTL_MINUTES;
+    delete process.env.REQUEST_INFO_MAX_ATTEMPTS;
+    delete process.env.MAIL_PROVIDER;
+    const env = loadRequestInfoEnv();
+    expect(env.otpTtlMinutes).toBe(10);
+    expect(env.maxAttempts).toBe(5);
+    expect(env.mailProvider).toBe("console");
+  });
+
+  it("requires RESEND_API_KEY when MAIL_PROVIDER is resend", () => {
+    process.env.OTP_HASH_SECRET = "test-secret";
+    process.env.MAIL_PROVIDER = "resend";
+    delete process.env.RESEND_API_KEY;
+    expect(() => loadRequestInfoEnv()).toThrow(/RESEND_API_KEY/);
+  });
+
+  it("requires MAIL_FROM_EMAIL when MAIL_PROVIDER is resend", () => {
+    process.env.OTP_HASH_SECRET = "test-secret";
+    process.env.MAIL_PROVIDER = "resend";
+    process.env.RESEND_API_KEY = "re_test_key";
+    delete process.env.MAIL_FROM_EMAIL;
+    expect(() => loadRequestInfoEnv()).toThrow(/MAIL_FROM_EMAIL/);
+  });
+
+  it("rejects a non-positive-integer TTL", () => {
+    process.env.OTP_HASH_SECRET = "test-secret";
+    process.env.REQUEST_INFO_OTP_TTL_MINUTES = "0";
+    expect(() => loadRequestInfoEnv()).toThrow(/REQUEST_INFO_OTP_TTL_MINUTES/);
+  });
+
+  it("strips a trailing slash from PUBLIC_SITE_URL", () => {
+    process.env.OTP_HASH_SECRET = "test-secret";
+    process.env.PUBLIC_SITE_URL = "https://example.com/";
+    expect(loadRequestInfoEnv().publicSiteUrl).toBe("https://example.com");
+  });
+
+  it("refuses to boot with MAIL_PROVIDER=console in production", () => {
+    process.env.OTP_HASH_SECRET = "test-secret";
+    process.env.NODE_ENV = "production";
+    delete process.env.MAIL_PROVIDER; // defaults to "console"
+    expect(() => loadRequestInfoEnv()).toThrow(/MAIL_PROVIDER must be explicitly set to "resend"/);
+  });
+
+  it("allows MAIL_PROVIDER=resend in production when a key and from-address are present", () => {
+    process.env.OTP_HASH_SECRET = "test-secret";
+    process.env.NODE_ENV = "production";
+    process.env.MAIL_PROVIDER = "resend";
+    process.env.RESEND_API_KEY = "re_test_key";
+    process.env.MAIL_FROM_EMAIL = "no-reply@example.com";
+    expect(() => loadRequestInfoEnv()).not.toThrow();
+  });
+
+  it("allows MAIL_PROVIDER=console outside production", () => {
+    process.env.OTP_HASH_SECRET = "test-secret";
+    process.env.NODE_ENV = "development";
+    delete process.env.MAIL_PROVIDER;
+    expect(loadRequestInfoEnv().mailProvider).toBe("console");
+  });
+
+  it("defaults dataDir to <package root>/.data when REQUEST_INFO_DATA_DIR is unset", () => {
+    process.env.OTP_HASH_SECRET = "test-secret";
+    delete process.env.REQUEST_INFO_DATA_DIR;
+    const expected = path.join(findPackageRoot(import.meta.dirname), ".data");
+    expect(loadRequestInfoEnv().dataDir).toBe(expected);
+  });
+
+  it("uses REQUEST_INFO_DATA_DIR verbatim when set, e.g. a mounted persistent disk", () => {
+    process.env.OTP_HASH_SECRET = "test-secret";
+    process.env.REQUEST_INFO_DATA_DIR = "/var/data";
+    expect(loadRequestInfoEnv().dataDir).toBe("/var/data");
+  });
+});
