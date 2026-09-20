@@ -6,3 +6,6 @@
 .env.example text eol=lf
 .nvmrc    text eol=lf
 deployment/** text eol=lf
+
+# PDFs are binary: never let Git rewrite line endings inside them.
+*.pdf binary
