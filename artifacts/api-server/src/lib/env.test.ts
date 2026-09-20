@@ -88,7 +88,7 @@ describe("loadRequestInfoEnv", () => {
     process.env.NODE_ENV = "production";
     process.env.MAIL_PROVIDER = "resend";
     process.env.RESEND_API_KEY = "re_test_key";
-    process.env.MAIL_FROM_EMAIL = "no-reply@example.com";
+    process.env.MAIL_FROM_EMAIL = "info@skyline-holding-slu.com";
     expect(() => loadRequestInfoEnv()).not.toThrow();
   });
 
@@ -110,5 +110,33 @@ describe("loadRequestInfoEnv", () => {
     process.env.OTP_HASH_SECRET = "test-secret";
     process.env.REQUEST_INFO_DATA_DIR = "/var/data";
     expect(loadRequestInfoEnv().dataDir).toBe("/var/data");
+  });
+
+  it("rejects a MAIL_FROM_EMAIL that is not a plain address when sending through Resend", () => {
+    process.env.OTP_HASH_SECRET = "test-secret";
+    process.env.MAIL_PROVIDER = "resend";
+    process.env.RESEND_API_KEY = "re_test_key";
+    for (const bad of ["Skyline Holding <info@skyline-holding-slu.com>", "info@", "not-an-email", "a b@c.com"]) {
+      process.env.MAIL_FROM_EMAIL = bad;
+      expect(() => loadRequestInfoEnv(), bad).toThrow(/MAIL_FROM_EMAIL must be a plain email address/);
+    }
+  });
+
+  it("accepts the official company address as the Resend sender", () => {
+    process.env.OTP_HASH_SECRET = "test-secret";
+    process.env.MAIL_PROVIDER = "resend";
+    process.env.RESEND_API_KEY = "re_test_key";
+    process.env.MAIL_FROM_EMAIL = "info@skyline-holding-slu.com";
+    const env = loadRequestInfoEnv();
+    expect(env.mailFromEmail).toBe("info@skyline-holding-slu.com");
+    expect(env.mailFromName).toBe("Skyline Holding");
+  });
+
+  it("never falls back to a placeholder sender address", () => {
+    process.env.OTP_HASH_SECRET = "test-secret";
+    process.env.NODE_ENV = "development";
+    delete process.env.MAIL_PROVIDER;
+    delete process.env.MAIL_FROM_EMAIL;
+    expect(loadRequestInfoEnv().mailFromEmail).toBe("info@skyline-holding-slu.com");
   });
 });

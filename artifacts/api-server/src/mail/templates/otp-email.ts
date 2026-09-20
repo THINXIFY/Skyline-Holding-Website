@@ -6,6 +6,7 @@ export interface OtpEmailInput {
   publicSiteUrl: string;
 }
 
+const COMPANY_EMAIL = "info@skyline-holding-slu.com";
 const GOLD = "#C7A86B";
 const INK = "#080A0D";
 const IVORY = "#F5F2EA";
@@ -67,6 +68,11 @@ export function renderOtpEmailHtml({ code, ttlMinutes }: OtpEmailInput): string 
               </td>
             </tr>
             <tr>
+              <td style="padding:0 40px 32px;">
+                <p style="margin:0;font-family:${SANS};font-size:13px;line-height:20px;color:${MUTED};">Questions? Write to <a href="mailto:${COMPANY_EMAIL}" style="color:${GOLD};text-decoration:underline;">${COMPANY_EMAIL}</a></p>
+              </td>
+            </tr>
+            <tr>
               <td style="padding:24px 40px;border-top:1px solid #12304A;">
                 <p style="margin:0;font-family:${SANS};font-size:11px;letter-spacing:2px;text-transform:uppercase;color:${GOLD};">Skyline Holding</p>
               </td>
@@ -92,5 +98,7 @@ export function renderOtpEmailText({ code, ttlMinutes }: OtpEmailInput): string 
     `This code will expire in ${ttlMinutes} minutes.`,
     "",
     "If you did not request this code, you can ignore this message.",
+    "",
+    `Questions? Write to ${COMPANY_EMAIL}`,
   ].join("\n");
 }

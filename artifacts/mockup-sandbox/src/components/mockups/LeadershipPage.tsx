@@ -5,7 +5,7 @@ import { LeadershipTeam } from "./_skyline/leadership/LeadershipTeam";
 import { ValuesInAction } from "./_skyline/leadership/ValuesInAction";
 import { LeadershipFinalCta } from "./_skyline/leadership/LeadershipFinalCta";
 
-/** Skyline Holding "Leadership" page, routed at /leadership. */
+/** Skyline Holding "Team" page, routed at /team (/leadership redirects here). */
 export default function LeadershipPage() {
   return (
     <div className="bg-[#080A0D]">

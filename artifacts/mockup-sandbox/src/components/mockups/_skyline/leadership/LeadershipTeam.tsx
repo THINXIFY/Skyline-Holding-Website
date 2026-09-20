@@ -99,7 +99,7 @@ export function LeadershipTeam() {
           <div className="lg:col-span-7">
             <p className="lt-eyebrow flex items-center gap-3 font-[Inter] text-[12px] font-semibold tracking-[0.16em] text-[#C7A86B]">
               <span className="h-px w-8 bg-[#C7A86B]" aria-hidden />
-              OUR LEADERSHIP
+              OUR TEAM
             </p>
             <h2 className="mt-6 font-[Cormorant_Garamond] text-[clamp(40px,4.5vw,62px)] font-semibold leading-[1.0] text-[#12161B]">
               <span className="block overflow-hidden pb-1">
@@ -122,7 +122,7 @@ export function LeadershipTeam() {
               <button
                 type="button"
                 onClick={() => scrollByCard(-1)}
-                aria-label="Previous leader"
+                aria-label="Previous team member"
                 className="flex size-11 items-center justify-center rounded-full border border-[#12161B]/20 text-[#12161B] transition-colors hover:border-[#C7A86B] hover:text-[#C7A86B]"
               >
                 <ArrowLeft size={16} strokeWidth={1.75} />
@@ -130,7 +130,7 @@ export function LeadershipTeam() {
               <button
                 type="button"
                 onClick={() => scrollByCard(1)}
-                aria-label="Next leader"
+                aria-label="Next team member"
                 className="flex size-11 items-center justify-center rounded-full border border-[#C7A86B] text-[#C7A86B] transition-colors hover:bg-[#C7A86B] hover:text-[#12161B]"
               >
                 <ArrowRight size={16} strokeWidth={1.75} />
@@ -147,7 +147,7 @@ export function LeadershipTeam() {
           onPointerCancel={onPointerUp}
           tabIndex={0}
           role="group"
-          aria-label="Leadership team, scrollable"
+          aria-label="Team, scrollable"
           onKeyDown={(e) => {
             if (e.key === "ArrowRight") scrollByCard(1);
             if (e.key === "ArrowLeft") scrollByCard(-1);
@@ -184,6 +184,12 @@ export function LeadershipTeam() {
                 <p className="mt-3 font-[Inter] text-[12.5px] leading-[1.5] text-[#9DA5AE]">
                   {member.shortBio}
                 </p>
+                <a
+                  href={`mailto:${member.email}`}
+                  className="mt-3 block break-all py-1.5 font-[Inter] text-[12px] text-[#9DA5AE] underline-offset-4 transition-colors hover:text-[#D8BD82] hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C7A86B]"
+                >
+                  {member.email}
+                </a>
                 <button
                   type="button"
                   onClick={(e) => openProfile(index, e.currentTarget)}
@@ -309,6 +315,12 @@ function ProfileDrawer({
           <p className="pd-content mt-6 font-[Inter] text-[15.5px] leading-[1.6] text-[#F5F2EA]/75">
             {member.shortBio}
           </p>
+          <a
+            href={`mailto:${member.email}`}
+            className="pd-content mt-5 inline-block break-all py-1.5 font-[Inter] text-[13.5px] text-[#9DA5AE] underline-offset-4 transition-colors hover:text-[#D8BD82] hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C7A86B]"
+          >
+            {member.email}
+          </a>
         </div>
       </div>
     </div>

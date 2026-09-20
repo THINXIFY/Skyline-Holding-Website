@@ -16,14 +16,14 @@ describe("ResendMailProvider", () => {
 
   it("sends from and replies-to the configured from-address", async () => {
     send.mockResolvedValue({ data: { id: "email-id" }, error: null });
-    const provider = new ResendMailProvider("re_test_key", "no-reply@example.com", "Skyline Holding");
+    const provider = new ResendMailProvider("re_test_key", "info@skyline-holding-slu.com", "Skyline Holding");
 
     await provider.sendMail({ to: "visitor@example.com", subject: "Subject", html: "<p>hi</p>", text: "hi" });
 
     expect(send).toHaveBeenCalledWith(
       expect.objectContaining({
-        from: "Skyline Holding <no-reply@example.com>",
-        replyTo: "no-reply@example.com",
+        from: "Skyline Holding <info@skyline-holding-slu.com>",
+        replyTo: "info@skyline-holding-slu.com",
         to: "visitor@example.com",
       }),
     );
@@ -31,7 +31,7 @@ describe("ResendMailProvider", () => {
 
   it("throws when Resend reports an error", async () => {
     send.mockResolvedValue({ data: null, error: { message: "domain not verified" } });
-    const provider = new ResendMailProvider("re_test_key", "no-reply@example.com", "Skyline Holding");
+    const provider = new ResendMailProvider("re_test_key", "info@skyline-holding-slu.com", "Skyline Holding");
 
     await expect(
       provider.sendMail({ to: "visitor@example.com", subject: "Subject", html: "<p>hi</p>", text: "hi" }),
@@ -40,7 +40,7 @@ describe("ResendMailProvider", () => {
 
   it("embeds the Skyline logo as an inline attachment referenced by cid:skyline-logo", async () => {
     send.mockResolvedValue({ data: { id: "email-id" }, error: null });
-    const provider = new ResendMailProvider("re_test_key", "no-reply@example.com", "Skyline Holding");
+    const provider = new ResendMailProvider("re_test_key", "info@skyline-holding-slu.com", "Skyline Holding");
 
     await provider.sendMail({ to: "visitor@example.com", subject: "Subject", html: "<p>hi</p>", text: "hi" });
 
@@ -54,7 +54,7 @@ describe("ResendMailProvider", () => {
 
   it("keeps document attachments alongside the inline logo, without an inlineContentId", async () => {
     send.mockResolvedValue({ data: { id: "email-id" }, error: null });
-    const provider = new ResendMailProvider("re_test_key", "no-reply@example.com", "Skyline Holding");
+    const provider = new ResendMailProvider("re_test_key", "info@skyline-holding-slu.com", "Skyline Holding");
 
     await provider.sendMail({
       to: "visitor@example.com",

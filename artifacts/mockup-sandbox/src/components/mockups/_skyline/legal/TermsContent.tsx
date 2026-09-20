@@ -245,6 +245,16 @@ export function TermsContent() {
                     {companyInfo.shareCapital}
                   </p>
                 </div>
+                <div>
+                  <p className="font-[Inter] text-[11px] font-semibold uppercase tracking-[0.08em] text-[#9DA5AE]">
+                    Email
+                  </p>
+                  <p className="mt-1 break-all font-[Inter] text-[13.5px] text-[#12161B]/80">
+                    <a href={`mailto:${companyInfo.email}`} className="text-[#12161B] underline decoration-[#12161B]/25 underline-offset-4 transition-colors hover:text-[#C7A86B] hover:decoration-[#C7A86B]">
+                      {companyInfo.email}
+                    </a>
+                  </p>
+                </div>
               </div>
             </LegalSection>
           </div>

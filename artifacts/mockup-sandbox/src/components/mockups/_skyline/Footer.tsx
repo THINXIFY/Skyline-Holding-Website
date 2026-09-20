@@ -14,7 +14,7 @@ interface FooterLink {
 
 const aboutLinks: FooterLink[] = [
   { label: "About Skyline", href: "/about" },
-  { label: "Leadership", href: "/leadership" },
+  { label: "Team", href: "/team" },
   { label: "Governance", href: "/governance" },
   { label: "Contact", href: "/contact" },
 ];
@@ -58,7 +58,7 @@ function FooterLinkItem({ link }: { link: FooterLink }) {
   return (
     <a
       href={link.href}
-      className="group flex min-h-11 w-fit items-center font-[Inter] text-[13.5px] font-medium text-[#9DA5AE] transition-colors duration-300 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C7A86B]"
+      className="group flex min-h-11 w-fit items-center font-[Inter] text-[13.5px] font-medium text-[#9DA5AE] lg:min-h-8 transition-colors duration-300 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C7A86B]"
     >
       <span className="relative">
         {link.label}
@@ -270,6 +270,13 @@ export function Footer() {
                     aria-hidden
                   />
                 </a>
+                <br />
+                <a
+                  href={`mailto:${companyInfo.email}`}
+                  className="inline-flex min-h-11 items-center break-all font-[Inter] text-[13px] text-[#9DA5AE] transition-colors duration-300 hover:text-[#D8BD82]"
+                >
+                  {companyInfo.email}
+                </a>
               </div>
             </div>
 
@@ -280,7 +287,7 @@ export function Footer() {
                   <p className="font-[Inter] text-[11px] font-semibold uppercase tracking-[0.12em] text-[#9DA5AE]">
                     {col.title}
                   </p>
-                  <div className="mt-5 flex flex-col items-start gap-3">
+                  <div className="mt-4 flex flex-col items-start gap-1">
                     {col.links.map((link) => (
                       <FooterLinkItem key={link.label} link={link} />
                     ))}

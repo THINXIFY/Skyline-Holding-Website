@@ -35,7 +35,7 @@ describe("app CORS configuration", () => {
     process.env.OTP_HASH_SECRET = "test-secret";
     process.env.MAIL_PROVIDER = "resend";
     process.env.RESEND_API_KEY = "re_test";
-    process.env.MAIL_FROM_EMAIL = "no-reply@example.com";
+    process.env.MAIL_FROM_EMAIL = "info@skyline-holding-slu.com";
 
     await expect(loadApp()).rejects.toThrow(/CORS_ALLOWED_ORIGINS or SITE_URL must be set in production/);
   });
@@ -46,7 +46,7 @@ describe("app CORS configuration", () => {
     process.env.OTP_HASH_SECRET = "test-secret";
     process.env.MAIL_PROVIDER = "resend";
     process.env.RESEND_API_KEY = "re_test";
-    process.env.MAIL_FROM_EMAIL = "no-reply@example.com";
+    process.env.MAIL_FROM_EMAIL = "info@skyline-holding-slu.com";
 
     await expect(loadApp()).resolves.toBeDefined();
   });
@@ -58,7 +58,7 @@ describe("app CORS configuration", () => {
     process.env.OTP_HASH_SECRET = "test-secret";
     process.env.MAIL_PROVIDER = "resend";
     process.env.RESEND_API_KEY = "re_test";
-    process.env.MAIL_FROM_EMAIL = "no-reply@example.com";
+    process.env.MAIL_FROM_EMAIL = "info@skyline-holding-slu.com";
 
     await expect(loadApp()).resolves.toBeDefined();
   });

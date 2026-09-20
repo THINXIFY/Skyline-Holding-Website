@@ -1,10 +1,21 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowRight, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Mail, MapPin, MessageCircle } from "lucide-react";
 import { gsap, EASE, prefersReducedMotion } from "../gsap";
 import { contactChannels } from "../data";
 import { AccessVerificationModal } from "../access/AccessVerificationModal";
 
-const icons = [Mail, Phone, MapPin, MessageCircle];
+const icons = [Mail, MapPin, MessageCircle];
+
+// Three channels. Desktop: three equal columns. Tablet: the email card spans
+// the full width, the other two sit side by side beneath it. Mobile: stacked.
+// Each entry is [card classes, divider classes]; the divider is the thin
+// vertical rule to the left of a card, shown only where a card has a
+// neighbour on its left.
+const channelLayout: Array<[string, string]> = [
+  ["pl-0 sm:col-span-2 lg:col-span-1", ""],
+  ["pl-0 lg:pl-6", "hidden lg:block"],
+  ["pl-0 sm:pl-6", "hidden sm:block"],
+];
 
 export function WaysToConnect() {
   const rootRef = useRef<HTMLElement>(null);
@@ -102,14 +113,14 @@ export function WaysToConnect() {
           </div>
         </div>
 
-        <div className="mt-16 grid grid-cols-1 gap-10 border-t border-[#12161B]/10 pt-10 sm:grid-cols-2 md:mt-20 lg:grid-cols-4">
+        <div className="mt-16 grid grid-cols-1 gap-10 border-t border-[#12161B]/10 pt-10 sm:grid-cols-2 md:mt-20 lg:grid-cols-3">
           {contactChannels.map((channel, index) => {
             const Icon = icons[index];
             return (
-              <div key={channel.label} className="wc-channel relative pl-0 sm:pl-6 sm:first:pl-0">
+              <div key={channel.label} className={`wc-channel relative ${channelLayout[index]?.[0] ?? "pl-0"}`}>
                 {index > 0 && (
                   <span
-                    className="wc-divider absolute left-0 top-1 hidden h-full w-px origin-top bg-[#12161B]/10 sm:block"
+                    className={`wc-divider absolute left-0 top-1 h-full w-px origin-top bg-[#12161B]/10 ${channelLayout[index]?.[1] ?? "hidden sm:block"}`}
                     aria-hidden
                   />
                 )}
@@ -123,17 +134,34 @@ export function WaysToConnect() {
                 <p className="mt-2 whitespace-pre-line font-[Inter] text-[13.5px] leading-[1.5] text-[#12161B]/60">
                   {channel.body}
                 </p>
+                {channel.email && (
+                  <a
+                    href={`mailto:${channel.email}`}
+                    className="mt-3 block break-all font-[Inter] text-[15px] font-semibold text-[#12161B] underline decoration-[#12161B]/25 underline-offset-4 transition-colors hover:text-[#C7A86B] hover:decoration-[#C7A86B]"
+                  >
+                    {channel.email}
+                  </a>
+                )}
                 {channel.cta && channel.href && (
                   <a
                     href={channel.href}
+                    {...(channel.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                     className="group mt-4 inline-flex min-h-11 items-center gap-2 font-[Inter] text-[12.5px] font-semibold text-[#12161B] underline decoration-[#12161B]/25 underline-offset-4 transition-colors hover:text-[#C7A86B] hover:decoration-[#C7A86B]"
                   >
                     {channel.cta}
-                    <ArrowRight
-                      className="size-3.5 text-[#C7A86B] transition-transform duration-300 group-hover:translate-x-1"
-                      strokeWidth={2}
-                      aria-hidden
-                    />
+                    {channel.external ? (
+                      <ArrowUpRight
+                        className="size-3.5 text-[#C7A86B] transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                        strokeWidth={2}
+                        aria-hidden
+                      />
+                    ) : (
+                      <ArrowRight
+                        className="size-3.5 text-[#C7A86B] transition-transform duration-300 group-hover:translate-x-1"
+                        strokeWidth={2}
+                        aria-hidden
+                      />
+                    )}
                   </a>
                 )}
               </div>

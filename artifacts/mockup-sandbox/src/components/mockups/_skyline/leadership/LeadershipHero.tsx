@@ -104,7 +104,7 @@ export function LeadershipHero() {
         <div className="max-w-[680px]">
           <p className="lh-eyebrow flex items-center gap-3 font-[Inter] text-[12px] font-semibold tracking-[0.16em] text-[#D8BD82]">
             <span className="lh-rule h-px w-8 bg-[#D8BD82]" aria-hidden />
-            LEADERSHIP
+            TEAM
           </p>
           <h1 className="mt-6 font-[Cormorant_Garamond] text-[clamp(54px,6vw,82px)] font-semibold leading-[0.98] text-[#F8F7F3]">
             <span className="block overflow-hidden pb-1">

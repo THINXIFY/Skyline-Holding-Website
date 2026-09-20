@@ -3,7 +3,7 @@ import { ArrowRight, FileText } from "lucide-react";
 import { gsap, EASE, prefersReducedMotion } from "../gsap";
 import { companyInfo, registryDocument } from "../data";
 
-const rows: Array<[string, string]> = [
+const rows: Array<[string, string, string?]> = [
   ["Registered Name", companyInfo.legalName],
   ["CEO", companyInfo.ceo],
   ["Registre de Comerç/Societats", companyInfo.commercialRegister],
@@ -12,6 +12,7 @@ const rows: Array<[string, string]> = [
   ["Registration Date", companyInfo.registrationDate],
   ["Registered Address", companyInfo.registeredAddress],
   ["Share Capital", companyInfo.shareCapital],
+  ["Email", companyInfo.email, `mailto:${companyInfo.email}`],
 ];
 
 export function CompanyOverview() {
@@ -71,7 +72,7 @@ export function CompanyOverview() {
             </p>
 
             <div className="mt-10 border-t border-[#12161B]/10">
-              {rows.map(([label, value]) => (
+              {rows.map(([label, value, href]) => (
                 <div
                   key={label}
                   className="co-row flex flex-col gap-1 border-b border-[#12161B]/10 py-4 sm:flex-row sm:items-center sm:gap-6"
@@ -79,7 +80,15 @@ export function CompanyOverview() {
                   <span className="font-[Inter] text-[11.5px] font-semibold uppercase tracking-[0.1em] text-[#9DA5AE] sm:w-[220px] sm:shrink-0">
                     {label}
                   </span>
-                  <span className="font-[Inter] text-[14.5px] font-medium text-[#12161B]">{value}</span>
+                  <span className="break-words font-[Inter] text-[14.5px] font-medium text-[#12161B]">
+                    {href ? (
+                      <a href={href} className="text-[#12161B] underline decoration-[#12161B]/25 underline-offset-4 transition-colors hover:text-[#C7A86B] hover:decoration-[#C7A86B]">
+                        {value}
+                      </a>
+                    ) : (
+                      value
+                    )}
+                  </span>
                 </div>
               ))}
               <div className="co-row co-status flex flex-col gap-1 py-4 sm:flex-row sm:items-center sm:gap-6">

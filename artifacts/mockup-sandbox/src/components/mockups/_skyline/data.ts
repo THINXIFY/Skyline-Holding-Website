@@ -15,7 +15,6 @@ export const navItems: NavItem[] = [
     label: "About",
     children: [
       { label: "About Skyline", href: "/about" },
-      { label: "Leadership", href: "/leadership" },
       { label: "Governance", href: "/governance" },
     ],
   },
@@ -36,6 +35,7 @@ export const navItems: NavItem[] = [
       { label: "Strategic Advisory", href: "/strategic-advisory" },
     ],
   },
+  { label: "Team", href: "/team" },
   { label: "Insights", href: "/#insights" },
   { label: "Contact", href: "/contact" },
 ];
@@ -711,6 +711,8 @@ export const governancePillars = [
 // ---------------------------------------------------------------------------
 
 export interface LeadershipMember {
+  /** Individual work email, shown as a mailto link on the card and profile. */
+  email: string;
   name: string;
   role: string;
   /** Short display form used on the gallery card, e.g. "CEO". */
@@ -725,6 +727,7 @@ export interface LeadershipMember {
 export const leadershipTeam: LeadershipMember[] = [
   {
     name: "Marc Torres",
+    email: "marc.t@skyline-holding-slu.com",
     role: "Chief Executive Officer",
     shortRole: "CEO",
     shortBio: "Leading Skyline Holding's long-term strategy, investment direction and global development.",
@@ -732,6 +735,7 @@ export const leadershipTeam: LeadershipMember[] = [
   },
   {
     name: "Dave Mora",
+    email: "dave.m@skyline-holding-slu.com",
     role: "Chief Financial Officer",
     shortRole: "CFO",
     shortBio: "Responsible for financial strategy, capital planning and financial oversight.",
@@ -739,6 +743,7 @@ export const leadershipTeam: LeadershipMember[] = [
   },
   {
     name: "Harry Roch",
+    email: "harry.r@skyline-holding-slu.com",
     role: "Asset Manager",
     shortRole: "Asset Manager",
     shortBio: "Focused on asset management, portfolio oversight and long-term value creation.",
@@ -746,6 +751,7 @@ export const leadershipTeam: LeadershipMember[] = [
   },
   {
     name: "George Sánchez",
+    email: "george.s@skyline-holding-slu.com",
     role: "International Broker",
     shortRole: "International Broker",
     shortBio: "Supporting international opportunities, relationships and cross-border transactions.",
@@ -753,6 +759,7 @@ export const leadershipTeam: LeadershipMember[] = [
   },
   {
     name: "Andrea Ruiz",
+    email: "andrea.r@skyline-holding-slu.com",
     role: "International Broker",
     shortRole: "International Broker",
     shortBio: "Connecting international opportunities with strategic relationships across markets.",
@@ -760,6 +767,7 @@ export const leadershipTeam: LeadershipMember[] = [
   },
   {
     name: "Franck Lemann",
+    email: "franck.le@skyline-holding-slu.com",
     role: "Investor Relations",
     shortRole: "Investor Relations",
     shortBio: "Supporting Skyline's relationships with investors and strategic capital partners.",
@@ -768,7 +776,7 @@ export const leadershipTeam: LeadershipMember[] = [
 ];
 
 export const leadershipStats = [
-  { value: "6", label: "Leadership Team Members" },
+  { value: "6", label: "Team Members" },
   { value: "1", label: "Long-Term Vision" },
   { value: "A Global", label: "Perspective" },
 ] as const;
@@ -797,13 +805,14 @@ export const companyInfo = {
   entityStatus: "ACTIVE",
   registrationDate: "11.12.2016",
   shareCapital: "€32,464,255",
+  /** Official company email. The only company address used across the site. */
+  email: "info@skyline-holding-slu.com",
 } as const;
 
 export const registryDocument = {
   title: "Company Register",
   subtitle: "Registre de Societats Mercantils",
-  path: "/documents/SKYLINE_HOLDING_Andorra_Company_Registry.pdf",
-  registryBook: "S-207",
+  path: "/documents/SKYLINE_HOLDING_Registry.pdf",
   externalCertificateUrl:
     "https://www.e-tramits.ad/tramits/ca/certificat-de-societat-mercantil-andorrana/p/GV000900",
 } as const;
@@ -813,33 +822,35 @@ export const registryDocument = {
 // ---------------------------------------------------------------------------
 
 export interface ContactChannel {
+  /** Optional email shown as a mailto link inside the card. */
+  email?: string;
   label: string;
   title: string;
   body: string;
   cta?: string;
   href?: string;
+  /** Open the link in a new tab (e.g. a PDF). */
+  external?: boolean;
 }
 
-// Only verified information is shown here. Email and phone are intentionally
-// left as "not yet confirmed" rather than fabricated — see the codebase-wide
-// rule against inventing contact details.
+// Only verified information is shown here (see the codebase-wide rule against
+// inventing contact details). No telephone number is published.
 export const contactChannels: ContactChannel[] = [
   {
     label: "Email",
     title: "Contact by Email",
+    email: companyInfo.email,
     body: "For general enquiries, partnerships and business communication, please use the contact form below.",
     cta: "Send a Message",
     href: "#contact-form",
   },
   {
-    label: "Phone",
-    title: "Telephone",
-    body: "Direct telephone details can be added here once confirmed.",
-  },
-  {
     label: "Headquarters",
     title: "Andorra la Vella",
     body: companyInfo.registeredAddress,
+    cta: "View Company Registration",
+    href: registryDocument.path,
+    external: true,
   },
   {
     label: "General Enquiries",

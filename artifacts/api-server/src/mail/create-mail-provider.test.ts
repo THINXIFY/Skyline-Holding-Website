@@ -11,7 +11,7 @@ function envWith(overrides: Partial<RequestInfoEnv>): RequestInfoEnv {
     maxAttempts: 5,
     mailProvider: "console",
     resendApiKey: null,
-    mailFromEmail: "no-reply@example.com",
+    mailFromEmail: "info@skyline-holding-slu.com",
     mailFromName: "Skyline Holding",
     publicSiteUrl: "https://example.com",
     dataDir: "/tmp/test-data",

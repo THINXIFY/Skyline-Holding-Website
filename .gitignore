@@ -63,3 +63,9 @@ dist.old/
 # Logs
 logs/
 *.log
+
+# Confidential documents emailed after OTP verification: NEVER commit these to Git.
+# Upload them to the server instead (see DEPLOYMENT.md, "Private documents").
+# The company registration certificate is public on the website, so it stays tracked.
+artifacts/api-server/private/documents/*.pdf
+!artifacts/api-server/private/documents/SKYLINE_HOLDING_Registry.pdf

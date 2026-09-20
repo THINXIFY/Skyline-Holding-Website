@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { gsap, EASE, prefersReducedMotion } from "../gsap";
 import { companyInfo } from "../data";
 
-const details: Array<[string, string]> = [
+const details: Array<[string, string, string?]> = [
   ["Registered Company", companyInfo.legalName],
   ["Registered Address", companyInfo.registeredAddress],
   ["Chief Executive Officer", companyInfo.ceo],
@@ -12,6 +12,7 @@ const details: Array<[string, string]> = [
   ["Entity Status", companyInfo.entityStatus],
   ["Registration Date", companyInfo.registrationDate],
   ["Share Capital", companyInfo.shareCapital],
+  ["Email", companyInfo.email, `mailto:${companyInfo.email}`],
 ];
 
 export function Impressum() {
@@ -58,7 +59,7 @@ export function Impressum() {
         </p>
 
         <div className="mt-14 border-t border-[#12161B]/10">
-          {details.map(([label, value]) => (
+          {details.map(([label, value, href]) => (
             <div
               key={label}
               className="im-row flex flex-col gap-1 border-b border-[#12161B]/10 py-4 sm:flex-row sm:items-center sm:gap-8"
@@ -66,7 +67,15 @@ export function Impressum() {
               <span className="font-[Inter] text-[11.5px] font-semibold uppercase tracking-[0.1em] text-[#9DA5AE] sm:w-[240px] sm:shrink-0">
                 {label}
               </span>
-              <span className="font-[Inter] text-[14.5px] font-medium text-[#12161B]">{value}</span>
+              <span className="break-words font-[Inter] text-[14.5px] font-medium text-[#12161B]">
+                {href ? (
+                  <a href={href} className="text-[#12161B] underline decoration-[#12161B]/25 underline-offset-4 transition-colors hover:text-[#C7A86B] hover:decoration-[#C7A86B]">
+                    {value}
+                  </a>
+                ) : (
+                  value
+                )}
+              </span>
             </div>
           ))}
         </div>

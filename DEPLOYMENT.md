@@ -1,6 +1,6 @@
 # Skyline Holding: deployment guide (Hostinger VPS)
 
-Server: `2.25.169.72` (Ubuntu/Debian Linux, x86_64). App directory: `/var/www/skyline-holding`.
+Server: `2.25.169.72` (Ubuntu/Debian Linux, x86_64). Domain: `https://skyline-holding-slu.com`. App directory: `/var/www/skyline-holding`.
 
 ## How it is deployed
 
@@ -95,7 +95,18 @@ openssl rand -hex 32        # copy this value into OTP_HASH_SECRET
 nano .env
 ```
 
-Fill in at least: `OTP_HASH_SECRET`, `RESEND_API_KEY`, `MAIL_FROM_EMAIL`. `SITE_URL` is already `http://2.25.169.72`. See [Environment variables](#environment-variables).
+Fill in at least: `OTP_HASH_SECRET`, `RESEND_API_KEY`, `MAIL_FROM_EMAIL`. `SITE_URL` is `https://skyline-holding-slu.com` in the template (use `http://2.25.169.72` only until the domain and HTTPS are live). See [Environment variables](#environment-variables).
+
+## 4b. Upload the private documents (from your own computer)
+
+The confidential PDFs that are emailed after OTP verification are **deliberately not in Git** (`.gitignore` blocks them), so cloning the repo does not give the server those files. Upload them straight from your computer into the server's private folder, **before** running `deploy.sh` (its tests check that every document listed in `artifacts/api-server/config/request-info-documents.ts` exists):
+
+```bash
+# run on your computer, from the folder that contains the PDFs
+scp *.pdf skyline@2.25.169.72:/var/www/skyline-holding/artifacts/api-server/private/documents/
+```
+
+(The `skyline` user needs an SSH key or password for this; alternatively `scp` as root and then `chown skyline:skyline` the files.) The registration certificate is already in Git. Any time you add or replace a document, upload it the same way and, for a new one, add its entry to the manifest, commit, and run `deploy.sh`. If a listed file is missing, visitors see "We couldn't send the documents" after verifying.
 
 ## 5. First build and start (as `skyline`)
 
@@ -163,9 +174,20 @@ All live in `/var/www/skyline-holding/.env` on the server. Nothing secret is in 
 - **Run exactly one API instance.** OTP challenges are held in one process and rate limits are in memory. `ecosystem.config.cjs` pins a single fork-mode instance; do not use PM2 cluster mode.
 - Protection layers: OTP expiry, one-time use, 60 s resend cooldown, 5 attempts per code, per-email and per-IP limits in the API, plus an Nginx request limit on `/api/`.
 - OTP codes, emails and secrets are not logged in production. `/api/*` responses are never cached.
-- The PDFs delivered after verification live in `artifacts/api-server/private/documents/` (in the repo) and are never served publicly.
+- The PDFs delivered after verification live in `artifacts/api-server/private/documents/` (in the repo); that folder is never served by Nginx. The company registration certificate is also published on the website, so it exists twice: `artifacts/mockup-sandbox/public/documents/SKYLINE_HOLDING_Registry.pdf` (website) and `artifacts/api-server/private/documents/SKYLINE_HOLDING_Registry.pdf` (email attachment). **When the certificate changes, replace both copies**; a test fails if they differ.
 
 ## Everyday operations
+
+Changes under `deployment/nginx/` (for example the `/leadership` → `/team` redirect) are **not** applied by `deploy.sh`; the site keeps running on the copy in `/etc/nginx`. After such an update (as root):
+
+```bash
+cd /var/www/skyline-holding
+cp deployment/nginx/snippets/skyline-security-headers.conf /etc/nginx/snippets/
+# If Certbot has already edited /etc/nginx/sites-available/skyline, do NOT overwrite it:
+# copy just the changed block by hand instead. Otherwise:
+cp deployment/nginx/skyline.conf /etc/nginx/sites-available/skyline
+nginx -t && systemctl reload nginx
+```
 
 ```bash
 # Deploy an update (as skyline)
@@ -190,18 +212,18 @@ pm2 install pm2-logrotate
 
 ## When the real domain is ready
 
-1. **DNS**: at the domain registrar create `A` records for `yourdomain.com` and `www.yourdomain.com` pointing to `2.25.169.72`. Wait until `ping yourdomain.com` shows that IP.
+1. **DNS**: at the domain registrar create `A` records for `skyline-holding-slu.com` and `www.skyline-holding-slu.com` pointing to `2.25.169.72`. Wait until `ping skyline-holding-slu.com` shows that IP.
 2. **Nginx** (as root): edit `/etc/nginx/sites-available/skyline`:
-   `server_name yourdomain.com www.yourdomain.com;` then `nginx -t && systemctl reload nginx`.
+   `server_name skyline-holding-slu.com www.skyline-holding-slu.com;` then `nginx -t && systemctl reload nginx`.
 3. **HTTPS** (as root):
    ```bash
    apt install -y certbot python3-certbot-nginx
-   certbot --nginx -d yourdomain.com -d www.yourdomain.com
+   certbot --nginx -d skyline-holding-slu.com -d www.skyline-holding-slu.com
    certbot renew --dry-run
    ```
    Certbot adds the certificate, port 443 and the HTTP→HTTPS redirect to the Nginx file. After that, edit the file in `/etc/nginx/sites-available/`, not the repo copy (or re-run Certbot if you re-copy it).
-4. **App URL**: in `/var/www/skyline-holding/.env` set `SITE_URL=https://yourdomain.com`, then `bash scripts/deploy.sh` (rebuilds the canonical URLs and reloads the API).
-5. **Email**: verify `yourdomain.com` in Resend (add its DNS records), set `MAIL_FROM_EMAIL=no-reply@yourdomain.com` (or similar), redeploy.
+4. **App URL**: in `/var/www/skyline-holding/.env` set `SITE_URL=https://skyline-holding-slu.com`, then `bash scripts/deploy.sh` (rebuilds the canonical URLs and reloads the API).
+5. **Email**: verify `skyline-holding-slu.com` in Resend (add its DNS records). Emails are sent as `Skyline Holding <info@skyline-holding-slu.com>`, so `MAIL_FROM_EMAIL=info@skyline-holding-slu.com` and `MAIL_FROM_NAME="Skyline Holding"`; replies go to the same address. The API key lives only in the server's `.env`.
 6. **HSTS**: once HTTPS works, uncomment the `Strict-Transport-Security` line in `/etc/nginx/snippets/skyline-security-headers.conf` and reload Nginx.
 
 ## Troubleshooting

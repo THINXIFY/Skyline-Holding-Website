@@ -74,3 +74,45 @@ describe("loadEnabledDocuments", () => {
     expect(findPackageRoot(dist)).toBe(dir);
   });
 });
+
+describe("production document manifest", () => {
+  it("loads EVERY enabled document from the real private directory, each a real PDF", async () => {
+    const { requestInfoDocuments } = await import("../../config/request-info-documents");
+    const enabled = requestInfoDocuments.filter((doc) => doc.enabled);
+    expect(enabled.length).toBeGreaterThan(0);
+
+    const loaded = await loadEnabledDocuments();
+    // Nothing silently skipped: one loaded file per enabled manifest entry, same order.
+    expect(loaded.map((doc) => doc.filename)).toEqual(enabled.map((doc) => doc.filename));
+    for (const doc of loaded) {
+      expect(doc.content.subarray(0, 5).toString("latin1"), doc.filename).toBe("%PDF-");
+      expect(doc.content.byteLength, doc.filename).toBeGreaterThan(10_000);
+    }
+  });
+
+  it("has unique ids and unique attachment names, and stays under the attachment size cap", async () => {
+    const { requestInfoDocuments } = await import("../../config/request-info-documents");
+    const ids = requestInfoDocuments.map((doc) => doc.id);
+    const names = requestInfoDocuments.map((doc) => doc.filename);
+    expect(new Set(ids).size).toBe(ids.length);
+    expect(new Set(names).size).toBe(names.length);
+
+    const loaded = await loadEnabledDocuments();
+    const total = loaded.reduce((sum, doc) => sum + doc.content.byteLength, 0);
+    expect(total).toBeLessThan(35 * 1024 * 1024);
+  });
+
+  it("includes the company registration certificate", async () => {
+    const [first] = await loadEnabledDocuments();
+    expect(first.filename).toBe("SKYLINE_HOLDING_Registry.pdf");
+  });
+
+  it("is byte-identical to the copy the website publishes, so site and email never disagree", async () => {
+    const { readFile } = await import("node:fs/promises");
+    const website = await readFile(
+      path.join(findPackageRoot(import.meta.dirname), "..", "mockup-sandbox", "public", "documents", "SKYLINE_HOLDING_Registry.pdf"),
+    );
+    const emailed = (await loadEnabledDocuments()).find((doc) => doc.filename === "SKYLINE_HOLDING_Registry.pdf");
+    expect(emailed?.content.equals(website)).toBe(true);
+  });
+});

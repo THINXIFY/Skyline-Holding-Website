@@ -14,6 +14,8 @@ export interface RequestInfoEnv {
   dataDir: string;
 }
 
+const PLAIN_EMAIL_PATTERN = /^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/;
+
 function requireEnv(name: string): string {
   const value = process.env[name];
   if (!value) {
@@ -41,12 +43,19 @@ export function loadRequestInfoEnv(): RequestInfoEnv {
     throw new Error('MAIL_PROVIDER is "resend" but RESEND_API_KEY is not set.');
   }
   // Resend rejects sends from a "from" address whose domain isn't verified
-  // in the account - the silent default below ("no-reply@example.com") is
-  // never a valid sender, so every real send would fail. Fail closed here
-  // instead of letting a missing env var turn into a 100%-send-failure
+  // in the account, so the sender must be configured explicitly. Fail closed
+  // here instead of letting a missing env var turn into a 100%-send-failure
   // production incident that only surfaces once a visitor complains.
   if (mailProvider === "resend" && !process.env.MAIL_FROM_EMAIL) {
     throw new Error('MAIL_PROVIDER is "resend" but MAIL_FROM_EMAIL is not set.');
+  }
+  // The display name comes from MAIL_FROM_NAME and is combined with this
+  // address as "Name <address>", so MAIL_FROM_EMAIL must be the bare address.
+  // A value like "Skyline Holding <info@...>" would produce a broken From header.
+  if (mailProvider === "resend" && !PLAIN_EMAIL_PATTERN.test(process.env.MAIL_FROM_EMAIL ?? "")) {
+    throw new Error(
+      'MAIL_FROM_EMAIL must be a plain email address (e.g. info@skyline-holding-slu.com); set the display name with MAIL_FROM_NAME.',
+    );
   }
   // Fail closed, not open: MAIL_PROVIDER defaults to "console" (so local
   // dev works out of the box), but that default becoming the *production*
@@ -66,7 +75,8 @@ export function loadRequestInfoEnv(): RequestInfoEnv {
     maxAttempts: parsePositiveInt("REQUEST_INFO_MAX_ATTEMPTS", 5),
     mailProvider,
     resendApiKey: process.env.RESEND_API_KEY ?? null,
-    mailFromEmail: process.env.MAIL_FROM_EMAIL ?? "no-reply@example.com",
+    // Only reached outside resend mode (resend requires MAIL_FROM_EMAIL above).
+    mailFromEmail: process.env.MAIL_FROM_EMAIL || "info@skyline-holding-slu.com",
     mailFromName: process.env.MAIL_FROM_NAME || "Skyline Holding",
     publicSiteUrl: (process.env.PUBLIC_SITE_URL || process.env.SITE_URL || "http://localhost:8081").replace(/\/+$/, ""),
     // REQUEST_INFO_DATA_DIR lets a deployment point this at a mounted

@@ -12,6 +12,8 @@ describe("otp email template", () => {
     expect(html).toContain("Use the verification code below to continue securely.");
     expect(html).toContain("If you did not request this code, you can ignore this message.");
     expect(html).not.toMatch(/dcl/i);
+    expect(html).toContain("mailto:info@skyline-holding-slu.com");
+    expect(renderOtpEmailText(input)).toContain("info@skyline-holding-slu.com");
   });
 
   it("text version includes the same essentials", () => {
@@ -20,10 +22,12 @@ describe("otp email template", () => {
     expect(text).toContain("10 minutes");
   });
 
-  it("does not invent an email address, phone number, or office hours", () => {
+  it("only ever shows the official company email, and invents no phone number or office hours", () => {
     const html = renderOtpEmailHtml(input).toLowerCase();
-    expect(html).not.toMatch(/@[a-z0-9.-]+\.[a-z]{2,}/);
+    const addresses = html.match(/[a-z0-9._-]+@[a-z0-9.-]+\.[a-z]{2,}/g) ?? [];
+    expect(new Set(addresses)).toEqual(new Set(["info@skyline-holding-slu.com"]));
     expect(html).not.toContain("office hours");
+    expect(html).not.toMatch(/tel:|\+\d{6,}/);
   });
 
   it("never mentions attachments (the OTP email must not carry PDFs)", () => {

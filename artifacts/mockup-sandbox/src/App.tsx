@@ -151,7 +151,7 @@ const PAGE_TITLES: Record<string, string> = {
   "/strategic-partnerships": "Strategic Partnerships | Skyline Holding",
   "/investor-relations": "Investor Relations | Skyline Holding",
   "/governance": "Governance | Skyline Holding",
-  "/leadership": "Leadership | Skyline Holding",
+  "/team": "Team | Skyline Holding",
   "/contact": "Contact | Skyline Holding",
   "/legal": "Legal & Company Information | Skyline Holding",
   "/impressum": "Impressum | Skyline Holding",
@@ -160,6 +160,17 @@ const PAGE_TITLES: Record<string, string> = {
 };
 
 function App() {
+  // Old URL: /leadership now lives at /team. The production Nginx answers with
+  // a 301; this covers dev and any direct hit that reaches the app. Done
+  // before anything reads the path, so /team renders immediately.
+  if (getLocalPath() === "/leadership") {
+    window.history.replaceState(
+      null,
+      "",
+      getBasePath() + "/team" + window.location.search + window.location.hash,
+    );
+  }
+
   useEffect(() => initSmoothScroll(), []);
 
   const preview = resolvePreview(getLocalPath(), import.meta.env.DEV);
@@ -241,7 +252,7 @@ function App() {
     return <GovernancePage />;
   }
 
-  if (getLocalPath() === "/leadership") {
+  if (getLocalPath() === "/team") {
     return <LeadershipPage />;
   }
 

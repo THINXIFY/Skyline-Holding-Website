@@ -16,7 +16,7 @@ describe("resolvePreview", () => {
     for (const route of [
       "/", "/about", "/investment-strategy", "/investment-opportunities", "/investment-sectors",
       "/management-services", "/strategic-advisory", "/strategic-partnerships", "/investor-relations",
-      "/governance", "/leadership", "/contact", "/legal", "/impressum", "/privacy", "/terms",
+      "/governance", "/team", "/contact", "/legal", "/impressum", "/privacy", "/terms",
     ]) {
       expect(resolvePreview(route, false)).toEqual({ kind: "none" });
       expect(resolvePreview(route, true)).toEqual({ kind: "none" });

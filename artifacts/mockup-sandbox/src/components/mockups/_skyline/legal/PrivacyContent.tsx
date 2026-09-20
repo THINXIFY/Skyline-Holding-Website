@@ -146,6 +146,12 @@ export function PrivacyContent() {
                 <p className="mt-1 whitespace-pre-line font-[Inter] text-[13.5px] leading-[1.6] text-[#12161B]/65">
                   {companyInfo.registeredAddress}
                 </p>
+                <p className="mt-2 break-all font-[Inter] text-[13.5px] leading-[1.6] text-[#12161B]/65">
+                  Email:{" "}
+                  <a href={`mailto:${companyInfo.email}`} className="font-medium text-[#12161B] underline decoration-[#12161B]/25 underline-offset-4 transition-colors hover:text-[#C7A86B] hover:decoration-[#C7A86B]">
+                    {companyInfo.email}
+                  </a>
+                </p>
               </div>
             </LegalSection>
 
