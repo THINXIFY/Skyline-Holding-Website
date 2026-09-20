@@ -32,8 +32,7 @@ const serviceLinks: FooterLink[] = [
   { label: "Strategic Advisory", href: "/strategic-advisory" },
 ];
 
-const insightsLegalLinks: FooterLink[] = [
-  { label: "Insights", href: "/#insights" },
+const legalLinks: FooterLink[] = [
   { label: "Legal", href: "/legal" },
   { label: "Impressum", href: "/impressum" },
   { label: "Privacy", href: "/privacy" },
@@ -45,7 +44,7 @@ const columns: { title: string; links: FooterLink[] }[] = [
   { title: "About", links: aboutLinks },
   { title: "Investments", links: investmentLinks },
   { title: "Services", links: serviceLinks },
-  { title: "Insights & Legal", links: insightsLegalLinks },
+  { title: "Legal", links: legalLinks },
 ];
 
 const bottomLegalLinks: FooterLink[] = [
