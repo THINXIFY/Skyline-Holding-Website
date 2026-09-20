@@ -81,7 +81,19 @@ export function StrategicPartners() {
           {strategicPartners.map((partner) => (
             <div key={partner.name} className="sp-card flex flex-col items-center text-center sm:items-start sm:text-left">
               <div className="relative aspect-[4/5] w-[220px] overflow-hidden border border-white/10 sm:w-[240px]">
-                <InitialsPortrait name={partner.name} />
+                {partner.image ? (
+                  <img
+                    src={partner.image}
+                    alt={`Portrait of ${partner.name}`}
+                    loading="lazy"
+                    decoding="async"
+                    draggable={false}
+                    className="size-full object-cover"
+                    style={{ objectPosition: partner.imagePosition ?? "50% 50%" }}
+                  />
+                ) : (
+                  <InitialsPortrait name={partner.name} />
+                )}
               </div>
               <span className="mt-6 h-px w-8 bg-[#C7A86B]/50" aria-hidden />
               <h3 className="mt-5 font-[Cormorant_Garamond] text-[26px] font-semibold text-[#F8F7F3]">
@@ -104,6 +116,27 @@ export function StrategicPartners() {
                 />
                 <span className="sr-only">(opens in a new tab)</span>
               </a>
+              {partner.photoCredit && (
+                <p className="mt-1 font-[Inter] text-[11px] leading-[1.5] text-[#9DA5AE]/75">
+                  <a
+                    href={partner.photoCredit.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline decoration-white/20 underline-offset-2 transition-colors hover:text-[#D8BD82]"
+                  >
+                    {partner.photoCredit.label}
+                  </a>
+                  {" · "}
+                  <a
+                    href={partner.photoCredit.licenseHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline decoration-white/20 underline-offset-2 transition-colors hover:text-[#D8BD82]"
+                  >
+                    {partner.photoCredit.license}
+                  </a>
+                </p>
+              )}
             </div>
           ))}
         </div>

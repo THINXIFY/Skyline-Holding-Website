@@ -5,6 +5,7 @@ import { WhoWePartnerWith } from "./_skyline/partnerships/WhoWePartnerWith";
 import { HowWePartner } from "./_skyline/partnerships/HowWePartner";
 import { PartnershipApproach } from "./_skyline/partnerships/PartnershipApproach";
 import { StrategicPartners } from "./_skyline/partnerships/StrategicPartners";
+import { PartnerLogosSection } from "./_skyline/partners/PartnerLogosSection";
 import { GlobalNetworkAccess } from "./_skyline/partnerships/GlobalNetworkAccess";
 import { PartnershipsFinalCta } from "./_skyline/partnerships/PartnershipsFinalCta";
 
@@ -19,6 +20,7 @@ export default function StrategicPartnershipsPage() {
         <HowWePartner />
         <PartnershipApproach />
         <StrategicPartners />
+        <PartnerLogosSection />
         <GlobalNetworkAccess />
         <PartnershipsFinalCta />
       </main>

@@ -8,6 +8,7 @@ import { BeyondCapital } from "./_skyline/BeyondCapital";
 import { ManagementServices } from "./_skyline/ManagementServices";
 import { GlobalPerspective } from "./_skyline/GlobalPerspective";
 import { StrategicPartnerships } from "./_skyline/StrategicPartnerships";
+import { PartnerLogosSection } from "./_skyline/partners/PartnerLogosSection";
 import { ResearchIntelligence } from "./_skyline/ResearchIntelligence";
 import { ResponsibleGrowth } from "./_skyline/ResponsibleGrowth";
 import { InvestorRelations } from "./_skyline/InvestorRelations";
@@ -27,6 +28,7 @@ export default function SkylineHomepage() {
         <ManagementServices />
         <GlobalPerspective />
         <StrategicPartnerships />
+        <PartnerLogosSection compact />
         <ResearchIntelligence />
         <ResponsibleGrowth />
         <InvestorRelations />

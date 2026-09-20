@@ -4,6 +4,7 @@ import tailwindcss from "@tailwindcss/vite";
 import path from "path";
 import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
 import { mockupPreviewPlugin } from "./mockupPreviewPlugin";
+import { partnerLogosPlugin } from "./partnerLogosPlugin";
 
 // PORT / BASE_PATH are provided by the Replit workspace. Outside it (e.g. a
 // production build on a VPS) they fall back to safe defaults, so
@@ -21,6 +22,7 @@ export default defineConfig({
   base: basePath,
   plugins: [
     mockupPreviewPlugin(),
+    partnerLogosPlugin(),
     react(),
     tailwindcss(),
     runtimeErrorOverlay(),

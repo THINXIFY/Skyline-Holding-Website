@@ -616,8 +616,12 @@ export const partnershipPrinciples = [
 export interface StrategicPartner {
   name: string;
   externalUrl: string;
-  /** No verified photo exists yet — rendered with the shared initials treatment. */
+  /** Portrait photo, or null to fall back to the shared initials treatment. */
   image: string | null;
+  /** CSS object-position that keeps the face in frame in the 4:5 crop. */
+  imagePosition?: string;
+  /** Attribution required by the photo's Creative Commons licence. */
+  photoCredit?: { label: string; href: string; license: string; licenseHref: string };
 }
 
 // Only the two names the client supplied are used here. No deal history,
@@ -627,12 +631,26 @@ export const strategicPartners: StrategicPartner[] = [
   {
     name: "Ayman Hariri",
     externalUrl: "https://en.wikipedia.org/wiki/Ayman_Hariri",
-    image: null,
+    image: "/images/strategic-partners/ayman-hariri.jpg",
+    imagePosition: "50% 15%",
+    photoCredit: {
+      label: "Photo: RISE",
+      href: "https://commons.wikimedia.org/wiki/File:RISE_2019_-_Ayman_Hariri.jpg",
+      license: "CC BY 2.0",
+      licenseHref: "https://creativecommons.org/licenses/by/2.0/",
+    },
   },
   {
     name: "Naguib Sawiris",
     externalUrl: "https://fr.wikipedia.org/wiki/Naguib_Sawiris",
-    image: null,
+    image: "/images/strategic-partners/naguib-sawiris.jpg",
+    imagePosition: "50% 30%",
+    photoCredit: {
+      label: "Photo: Wikimedia Commons",
+      href: "https://commons.wikimedia.org/wiki/File:Naguib.jpg",
+      license: "CC BY-SA 2.0",
+      licenseHref: "https://creativecommons.org/licenses/by-sa/2.0/",
+    },
   },
 ];
 
