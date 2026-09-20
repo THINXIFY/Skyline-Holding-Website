@@ -97,16 +97,13 @@ nano .env
 
 Fill in at least: `OTP_HASH_SECRET`, `RESEND_API_KEY`, `MAIL_FROM_EMAIL`. `SITE_URL` is `https://skyline-holding-slu.com` in the template (use `http://2.25.169.72` only until the domain and HTTPS are live). See [Environment variables](#environment-variables).
 
-## 4b. Upload the private documents (from your own computer)
+## 4b. Private documents
 
-The confidential PDFs that are emailed after OTP verification are **deliberately not in Git** (`.gitignore` blocks them), so cloning the repo does not give the server those files. Upload them straight from your computer into the server's private folder, **before** running `deploy.sh` (its tests check that every document listed in `artifacts/api-server/config/request-info-documents.ts` exists):
+The PDFs that are emailed after OTP verification are in `artifacts/api-server/private/documents/` and are committed to the repository, so `git pull` / `git clone` brings them to the server. Nothing needs to be uploaded separately, and Nginx never serves that folder.
 
-```bash
-# run on your computer, from the folder that contains the PDFs
-scp *.pdf skyline@2.25.169.72:/var/www/skyline-holding/artifacts/api-server/private/documents/
-```
+**The GitHub repository is public**, so these files are also downloadable from GitHub itself, not only through the OTP email. If any of them must stay confidential, make the repository private (GitHub > Settings > Danger Zone > Change visibility) and give the server a read-only deploy key (see step 4).
 
-(The `skyline` user needs an SSH key or password for this; alternatively `scp` as root and then `chown skyline:skyline` the files.) The registration certificate is already in Git. Any time you add or replace a document, upload it the same way and, for a new one, add its entry to the manifest, commit, and run `deploy.sh`. If a listed file is missing, visitors see "We couldn't send the documents" after verifying.
+To add or replace a document: put the PDF in that folder, add or update its entry in `artifacts/api-server/config/request-info-documents.ts`, commit, push, and run `deploy.sh`. If a listed file is missing on the server, visitors see "We couldn't send the documents" after verifying (check `pm2 logs skyline-holding` for the file name).
 
 ## 5. First build and start (as `skyline`)
 
