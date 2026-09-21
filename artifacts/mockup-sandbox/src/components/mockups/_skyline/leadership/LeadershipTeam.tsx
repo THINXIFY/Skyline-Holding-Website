@@ -165,6 +165,7 @@ export function LeadershipTeam() {
                   <img
                     src={member.image}
                     alt={`Portrait of ${member.name}, ${member.role}`}
+                    style={member.imagePosition ? { objectPosition: member.imagePosition } : undefined}
                     className="size-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.025]"
                     draggable={false}
                     loading="lazy"
@@ -288,7 +289,12 @@ function ProfileDrawer({
       >
         <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden">
           {member.image ? (
-            <img src={member.image} alt="" className="size-full object-cover" />
+            <img
+              src={member.image}
+              alt=""
+              className="size-full object-cover"
+              style={member.imagePosition ? { objectPosition: member.imagePosition } : undefined}
+            />
           ) : (
             <InitialsPortrait name={member.name} />
           )}

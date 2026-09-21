@@ -730,6 +730,8 @@ export const governancePillars = [
 export interface LeadershipMember {
   /** Individual work email, shown as a mailto link on the card and profile. */
   email: string;
+  /** Optional CSS object-position to keep the head in frame when a photo is cropped (wide profile panel). */
+  imagePosition?: string;
   name: string;
   role: string;
   /** Short display form used on the gallery card, e.g. "CEO". */
@@ -788,7 +790,8 @@ export const leadershipTeam: LeadershipMember[] = [
     role: "Investor Relations",
     shortRole: "Investor Relations",
     shortBio: "Supporting Skyline's relationships with investors and strategic capital partners.",
-    image: "/images/Franck-Lemann.jpeg",
+    image: "/images/Franck-Lemann.jpg",
+    imagePosition: "50% 8%",
   },
 ];
 
