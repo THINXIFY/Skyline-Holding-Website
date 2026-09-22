@@ -837,6 +837,9 @@ export const registryDocument = {
     "https://www.e-tramits.ad/tramits/ca/certificat-de-societat-mercantil-andorrana/p/GV000900",
 } as const;
 
+/** Corporate pitch deck, linked from the homepage "Who We Are" section. */
+export const pitchDeckPath = "/documents/Skyline-Holding-slu-pitch-deck.pdf";
+
 // ---------------------------------------------------------------------------
 // Contact page
 // ---------------------------------------------------------------------------
