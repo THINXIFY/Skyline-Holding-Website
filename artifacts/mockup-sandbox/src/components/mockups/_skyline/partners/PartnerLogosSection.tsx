@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { gsap, EASE, prefersReducedMotion } from "../gsap";
+import { crunchbaseUrl } from "../data";
 import { PartnerLogoMarquee } from "./PartnerLogoMarquee";
 
 /**
@@ -97,6 +98,30 @@ export function PartnerLogosSection({ compact = false }: { compact?: boolean }) 
               Skyline Holding works with selected organizations and strategic relationships across key international
               markets and sectors.
             </p>
+            <a
+              href={crunchbaseUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="pl-link group mt-7 inline-flex min-h-11 items-center gap-2.5 font-[Inter] text-[13px] font-semibold text-[#F5F2EA]/80 transition-colors duration-300 hover:text-[#D8BD82] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#C7A86B]"
+            >
+              <span className="flex size-7 shrink-0 items-center justify-center overflow-hidden rounded-full border border-white/15 transition-colors duration-300 group-hover:border-[#C7A86B]">
+                <img
+                  src="/images/crunchbase-icon.jpg"
+                  alt=""
+                  width={500}
+                  height={500}
+                  loading="lazy"
+                  className="size-full object-cover"
+                />
+              </span>
+              View on Crunchbase
+              <ArrowUpRight
+                className="size-4 text-[#C7A86B] transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                strokeWidth={2}
+                aria-hidden
+              />
+              <span className="sr-only">(opens in a new tab)</span>
+            </a>
           </div>
         )}
       </div>
