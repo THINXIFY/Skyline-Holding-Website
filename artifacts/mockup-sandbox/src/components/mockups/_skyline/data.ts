@@ -840,6 +840,9 @@ export const registryDocument = {
 /** Corporate pitch deck, linked from the homepage "Who We Are" section. */
 export const pitchDeckPath = "/documents/Skyline-Holding-slu-pitch-deck.pdf";
 
+/** Official Crunchbase organization profile, linked from the footer and Legal page. */
+export const crunchbaseUrl = "https://www.crunchbase.com/organization/skyline-holding-slu";
+
 // ---------------------------------------------------------------------------
 // Contact page
 // ---------------------------------------------------------------------------

@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { ArrowRight, FileText } from "lucide-react";
 import { gsap, EASE, prefersReducedMotion } from "../gsap";
-import { companyInfo, registryDocument } from "../data";
+import { companyInfo, crunchbaseUrl, registryDocument } from "../data";
 
 const rows: Array<[string, string, string?]> = [
   ["Registered Name", companyInfo.legalName],
@@ -13,6 +13,7 @@ const rows: Array<[string, string, string?]> = [
   ["Registered Address", companyInfo.registeredAddress],
   ["Share Capital", companyInfo.shareCapital],
   ["Email", companyInfo.email, `mailto:${companyInfo.email}`],
+  ["Crunchbase Profile", "View on Crunchbase", crunchbaseUrl],
 ];
 
 export function CompanyOverview() {
@@ -82,7 +83,11 @@ export function CompanyOverview() {
                   </span>
                   <span className="break-words font-[Inter] text-[14.5px] font-medium text-[#12161B]">
                     {href ? (
-                      <a href={href} className="text-[#12161B] underline decoration-[#12161B]/25 underline-offset-4 transition-colors hover:text-[#C7A86B] hover:decoration-[#C7A86B]">
+                      <a
+                        href={href}
+                        {...(href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                        className="text-[#12161B] underline decoration-[#12161B]/25 underline-offset-4 transition-colors hover:text-[#C7A86B] hover:decoration-[#C7A86B]"
+                      >
                         {value}
                       </a>
                     ) : (

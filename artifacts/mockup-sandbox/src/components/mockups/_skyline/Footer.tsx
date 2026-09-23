@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight, ArrowUp, ChevronDown } from "lucide-react";
 import { gsap, EASE, prefersReducedMotion } from "./gsap";
-import { companyInfo } from "./data";
+import { companyInfo, crunchbaseUrl } from "./data";
 
 const IMAGE = "/images/slide-2.webp";
 
@@ -275,6 +275,26 @@ export function Footer() {
                   className="inline-flex min-h-11 items-center break-all font-[Inter] text-[13px] text-[#9DA5AE] transition-colors duration-300 hover:text-[#D8BD82]"
                 >
                   {companyInfo.email}
+                </a>
+              </div>
+
+              <div className="mt-6 flex items-center gap-3">
+                <a
+                  href={crunchbaseUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Skyline Holding on Crunchbase"
+                  title="Skyline Holding on Crunchbase"
+                  className="flex size-9 shrink-0 items-center justify-center overflow-hidden rounded-full border border-white/15 opacity-85 transition-all duration-300 hover:-translate-y-0.5 hover:border-[#C7A86B] hover:opacity-100 focus-visible:opacity-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C7A86B]"
+                >
+                  <img
+                    src="/images/crunchbase-icon.jpg"
+                    alt=""
+                    width={500}
+                    height={500}
+                    loading="lazy"
+                    className="size-full object-cover"
+                  />
                 </a>
               </div>
             </div>
