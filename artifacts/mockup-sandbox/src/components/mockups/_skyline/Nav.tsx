@@ -94,7 +94,7 @@ export function Nav() {
       >
         <nav
           aria-label="Primary"
-          className="mx-auto flex max-w-[1600px] items-center justify-between gap-6 px-6 md:px-10"
+          className="mx-auto flex max-w-[1600px] items-center justify-between gap-4 px-6 md:px-10 lg:px-6 xl:gap-6 xl:px-10"
         >
           <a
             href="/"
@@ -120,13 +120,13 @@ export function Nav() {
                     <a
                       href={item.href}
                       aria-current={active ? "page" : undefined}
-                      className={`group relative inline-flex items-center px-4 py-2.5 font-[Inter] text-[13px] font-medium tracking-[0.02em] transition-colors duration-300 hover:text-[#D8BD82] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C7A86B] ${
+                      className={`group relative inline-flex items-center px-2.5 py-2.5 xl:px-4 font-[Inter] text-[13px] font-medium tracking-[0.02em] transition-colors duration-300 hover:text-[#D8BD82] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C7A86B] ${
                         active ? "text-[#D8BD82]" : "text-[#F8F7F3]/80"
                       }`}
                     >
                       {item.label}
                       <span
-                        className={`absolute inset-x-4 -bottom-0.5 h-px origin-left scale-x-0 bg-[#D8BD82] transition-transform duration-300 group-hover:scale-x-100 ${
+                        className={`absolute inset-x-2.5 xl:inset-x-4 -bottom-0.5 h-px origin-left scale-x-0 bg-[#D8BD82] transition-transform duration-300 group-hover:scale-x-100 ${
                           active ? "scale-x-100" : ""
                         }`}
                         aria-hidden
@@ -150,7 +150,7 @@ export function Nav() {
                     aria-haspopup="true"
                     aria-expanded={isOpen}
                     onClick={() => setOpenDropdown(isOpen ? null : item.label)}
-                    className={`group relative inline-flex items-center gap-1.5 px-4 py-2.5 font-[Inter] text-[13px] font-medium tracking-[0.02em] transition-colors duration-300 hover:text-[#D8BD82] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C7A86B] ${
+                    className={`group relative inline-flex items-center gap-1.5 px-2.5 py-2.5 xl:px-4 font-[Inter] text-[13px] font-medium tracking-[0.02em] transition-colors duration-300 hover:text-[#D8BD82] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C7A86B] ${
                       active || isOpen ? "text-[#D8BD82]" : "text-[#F8F7F3]/80"
                     }`}
                   >
@@ -161,7 +161,7 @@ export function Nav() {
                       aria-hidden
                     />
                     <span
-                      className={`absolute inset-x-4 -bottom-0.5 h-px origin-left scale-x-0 bg-[#D8BD82] transition-transform duration-300 group-hover:scale-x-100 ${
+                      className={`absolute inset-x-2.5 xl:inset-x-4 -bottom-0.5 h-px origin-left scale-x-0 bg-[#D8BD82] transition-transform duration-300 group-hover:scale-x-100 ${
                         active ? "scale-x-100" : ""
                       }`}
                       aria-hidden

@@ -25,6 +25,7 @@ const investmentLinks: FooterLink[] = [
   { label: "Investment Sectors", href: "/investment-sectors" },
   { label: "Strategic Partnerships", href: "/strategic-partnerships" },
   { label: "Investor Relations", href: "/investor-relations" },
+  { label: "Portfolio", href: "/portfolio" },
 ];
 
 const serviceLinks: FooterLink[] = [
@@ -106,21 +107,28 @@ function FooterAccordion({ title, links }: { title: string; links: FooterLink[] 
   );
 }
 
-export function Footer() {
+/**
+ * Site footer. `showStatement={false}` omits the top "Looking ahead" statement band (used by
+ * pages that already end with their own closing call to action, e.g. /portfolio).
+ */
+export function Footer({ showStatement = true }: { showStatement?: boolean } = {}) {
   const rootRef = useRef<HTMLElement>(null);
   const year = new Date().getFullYear();
 
   useEffect(() => {
     if (!rootRef.current) return;
+    const root = rootRef.current;
     const reduce = prefersReducedMotion();
+    // only animate elements that are actually rendered (the statement band is optional)
+    const has = (selector: string) => root.querySelector(selector) !== null;
 
     const ctx = gsap.context(() => {
       if (reduce) {
         gsap.set(
-          [".ft-eyebrow", ".ft-heading-line", ".ft-copy", ".ft-cta", ".ft-side", ".ft-col", ".ft-bottom"],
+          [".ft-eyebrow", ".ft-heading-line", ".ft-copy", ".ft-cta", ".ft-side", ".ft-col", ".ft-bottom"].filter(has),
           { opacity: 1, y: 0 },
         );
-        gsap.set(".ft-rule", { scaleX: 1 });
+        if (has(".ft-rule")) gsap.set(".ft-rule", { scaleX: 1 });
         return;
       }
 
@@ -129,24 +137,20 @@ export function Footer() {
         scrollTrigger: { trigger: rootRef.current, start: "top 88%" },
       });
 
-      tl.fromTo(".ft-eyebrow", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.6 })
-        .fromTo(
-          ".ft-heading-line",
-          { opacity: 0, y: "60%" },
-          { opacity: 1, y: "0%", duration: 0.9, stagger: 0.1 },
-          0.1,
-        )
-        .fromTo(".ft-copy", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.6 }, 0.35)
-        .fromTo(".ft-side", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.06 }, 0.3)
-        .fromTo(".ft-cta", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.08 }, 0.5)
-        .fromTo(
-          ".ft-col",
-          { opacity: 0, y: 16 },
-          { opacity: 1, y: 0, duration: 0.55, stagger: 0.08 },
-          0.6,
-        )
-        .fromTo(".ft-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.8, transformOrigin: "left" }, 0.2)
-        .fromTo(".ft-bottom", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0.9);
+      if (has(".ft-eyebrow")) {
+        tl.fromTo(".ft-eyebrow", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.6 })
+          .fromTo(".ft-heading-line", { opacity: 0, y: "60%" }, { opacity: 1, y: "0%", duration: 0.9, stagger: 0.1 }, 0.1)
+          .fromTo(".ft-copy", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.6 }, 0.35)
+          .fromTo(".ft-side", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.06 }, 0.3)
+          .fromTo(".ft-cta", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.08 }, 0.5)
+          .fromTo(".ft-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.8, transformOrigin: "left" }, 0.2);
+      }
+      tl.fromTo(".ft-col", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.55, stagger: 0.08 }, 0.6).fromTo(
+        ".ft-bottom",
+        { opacity: 0 },
+        { opacity: 1, duration: 0.5 },
+        0.9,
+      );
     }, rootRef);
 
     return () => ctx.revert();
@@ -154,7 +158,8 @@ export function Footer() {
 
   return (
     <footer ref={rootRef} className="relative bg-[#080A0D]">
-      {/* Layer 1 — top editorial statement */}
+      {/* Layer 1 — top editorial statement (optional) */}
+      {showStatement && (
       <div className="relative overflow-hidden border-b border-white/8">
         <div className="absolute inset-0" aria-hidden>
           <img src={IMAGE} alt="" className="size-full object-cover opacity-[0.08]" loading="lazy" />
@@ -220,6 +225,7 @@ export function Footer() {
           </div>
         </div>
       </div>
+      )}
 
       {/* Layer 2 — main navigation + company information */}
       <div className="relative border-b border-white/8">

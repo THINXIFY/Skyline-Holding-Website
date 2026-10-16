@@ -35,6 +35,8 @@ export const navItems: NavItem[] = [
       { label: "Strategic Advisory", href: "/strategic-advisory" },
     ],
   },
+  // Protected page: visitors without an access session are sent to /portfolio-access.
+  { label: "Portfolio", href: "/portfolio" },
   { label: "Team", href: "/team" },
   { label: "Contact", href: "/contact" },
 ];

@@ -1,4 +1,5 @@
 import { Nav } from "./_skyline/Nav";
+import { Footer } from "./_skyline/Footer";
 import { ThesisHero } from "./_skyline/portfolio/thesis/ThesisHero";
 import { ThesisConviction } from "./_skyline/portfolio/thesis/ThesisConviction";
 import { ThesisSectors } from "./_skyline/portfolio/thesis/ThesisSectors";
@@ -14,8 +15,8 @@ import { ThesisClosingCta } from "./_skyline/portfolio/thesis/ThesisClosingCta";
  *
  * Sections 1-10: Hero, Conviction, Target Sectors, How We Invest, What We Bring, Portfolio Profiles
  * (nine company cards supplied by Skyline Holding), Process, Guardrails, Closing CTA and the
- * confidential note. The page footer is deliberately not built yet (the site Footer is left out
- * so its own closing CTA band does not duplicate the one in this page).
+ * confidential note, followed by the site footer (links and company details; its own "Looking ahead"
+ * band is omitted because this page already ends with its own closing call to action).
  *
  * CONTENT SENSITIVITY: ProtectedPortfolioRoute only gates this route in the browser, and the
  * app is a static bundle - everything in these components is readable by anyone who requests
@@ -40,6 +41,7 @@ export default function PortfolioPage() {
         <ThesisGuardrails />
         <ThesisClosingCta />
       </main>
+      <Footer showStatement={false} />
     </div>
   );
 }
