@@ -158,6 +158,7 @@ All live in `/var/www/skyline-holding/.env` on the server. Nothing secret is in 
 | `RESEND_API_KEY` | **yes** | Resend API key |
 | `MAIL_FROM_EMAIL` | **yes** | Sender address on a domain verified in Resend |
 | `MAIL_FROM_NAME` | no | Defaults to "Skyline Holding" |
+| `INVESTOR_ACCESS_CODE` | for `/portfolio` | Access code for the private portfolio page (`/portfolio-access`). Server-side only. Empty = portfolio access closed (API still starts). Access is tab-scoped: the browser keeps a random token in sessionStorage (cleared when the tab closes), valid for at most 4 h server-side. Sessions are in memory, so restarting the API also ends them. |
 | `REQUEST_INFO_DATA_DIR` | yes | `/var/lib/skyline-holding` (persistent, outside the project) |
 | `REQUEST_INFO_OTP_TTL_MINUTES`, `REQUEST_INFO_MAX_ATTEMPTS` | no | Default 10 minutes, 5 attempts |
 | `PUBLIC_SITE_URL`, `CORS_ALLOWED_ORIGINS` | no | Leave empty; both default to `SITE_URL` |

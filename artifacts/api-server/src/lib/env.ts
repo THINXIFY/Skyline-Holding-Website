@@ -34,6 +34,29 @@ function parsePositiveInt(name: string, fallback: number): number {
   return value;
 }
 
+export interface PortfolioAccessEnv {
+  /** INVESTOR_ACCESS_CODE, or null when unset/blank (portfolio access is then refused). */
+  accessCode: string | null;
+  /** Server-side secret for the constant-time code comparison; reuses the existing OTP_HASH_SECRET. */
+  sessionSecret: string;
+  /** Maximum lifetime of an access token. */
+  sessionTtlMs: number;
+}
+
+/**
+ * Hard ceiling on an access token. In practice access ends sooner: the browser keeps the
+ * token in sessionStorage, which is cleared when the tab/window is closed.
+ */
+const PORTFOLIO_SESSION_TTL_MS = 4 * 60 * 60 * 1000;
+
+export function loadPortfolioAccessEnv(): PortfolioAccessEnv {
+  return {
+    accessCode: process.env.INVESTOR_ACCESS_CODE?.trim() || null,
+    sessionSecret: requireEnv("OTP_HASH_SECRET"),
+    sessionTtlMs: PORTFOLIO_SESSION_TTL_MS,
+  };
+}
+
 export function loadRequestInfoEnv(): RequestInfoEnv {
   const mailProvider = (process.env.MAIL_PROVIDER ?? "console") as "resend" | "console";
   if (mailProvider !== "resend" && mailProvider !== "console") {

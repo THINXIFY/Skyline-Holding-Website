@@ -1,4 +1,4 @@
-import { useEffect, useState, type ComponentType } from "react";
+import { lazy, Suspense, useEffect, useState, type ComponentType } from "react";
 
 import { resolvePreview } from "./previewGate";
 import SkylineHomepage from "./components/mockups/SkylineHomepage";
@@ -17,7 +17,16 @@ import LegalPage from "./components/mockups/LegalPage";
 import ImpressumPage from "./components/mockups/ImpressumPage";
 import PrivacyPage from "./components/mockups/PrivacyPage";
 import TermsPage from "./components/mockups/TermsPage";
+import PortfolioAccessPage from "./components/mockups/PortfolioAccessPage";
+import {
+  PortfolioAccessLoading,
+  ProtectedPortfolioRoute,
+} from "./components/mockups/_skyline/portfolio/ProtectedPortfolioRoute";
 import { initSmoothScroll } from "./components/mockups/_skyline/smoothScroll";
+
+// Loaded only once ProtectedPortfolioRoute has confirmed an access session, so the
+// portfolio's code is a separate chunk that unauthorized visitors never request.
+const PortfolioPage = lazy(() => import("./components/mockups/PortfolioPage"));
 
 type ModuleMap = Record<string, () => Promise<Record<string, unknown>>>;
 
@@ -157,7 +166,12 @@ const PAGE_TITLES: Record<string, string> = {
   "/impressum": "Impressum | Skyline Holding",
   "/privacy": "Privacy Policy | Skyline Holding",
   "/terms": "Terms & Conditions | Skyline Holding",
+  "/portfolio-access": "Investment Thesis | Skyline Holding",
+  "/portfolio": "Portfolio | Skyline Holding",
 };
+
+/** Restricted pages: noindex, and no canonical / og:url (see also the Nginx X-Robots-Tag). */
+const RESTRICTED_PATHS = new Set(["/portfolio-access", "/portfolio"]);
 
 function App() {
   // Old URL: /leadership now lives at /team. The production Nginx answers with
@@ -190,7 +204,7 @@ function App() {
   // (VITE_SITE_URL, taken from SITE_URL at build time). Unset in dev: skipped.
   useEffect(() => {
     const siteUrl = ((import.meta.env.VITE_SITE_URL as string | undefined) ?? "").replace(/\/+$/, "");
-    if (previewPath || notFound || !siteUrl) return;
+    if (previewPath || notFound || !siteUrl || RESTRICTED_PATHS.has(getLocalPath())) return;
     const url = siteUrl + getLocalPath();
     let canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
     if (!canonical) {
@@ -214,6 +228,20 @@ function App() {
 
   if (previewPath) {
     return <PreviewRenderer componentPath={previewPath} />;
+  }
+
+  if (getLocalPath() === "/portfolio-access") {
+    return <PortfolioAccessPage />;
+  }
+
+  if (getLocalPath() === "/portfolio") {
+    return (
+      <ProtectedPortfolioRoute>
+        <Suspense fallback={<PortfolioAccessLoading />}>
+          <PortfolioPage />
+        </Suspense>
+      </ProtectedPortfolioRoute>
+    );
   }
 
   if (getLocalPath() === "/about") {

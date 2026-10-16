@@ -4,11 +4,20 @@ import healthRouter from "./health";
 import { createRequestInfoRouter } from "./request-info";
 import { FileOtpChallengeStore } from "../lib/otp-challenge-store";
 import { createMailProvider } from "../mail/create-mail-provider";
-import { loadRequestInfoEnv } from "../lib/env";
+import { loadPortfolioAccessEnv, loadRequestInfoEnv } from "../lib/env";
+import { createPortfolioAccessRouter } from "./portfolio-access";
+import { logger } from "../lib/logger";
 
 const router: IRouter = Router();
 
 router.use(healthRouter);
+
+const portfolioAccessEnv = loadPortfolioAccessEnv();
+if (!portfolioAccessEnv.accessCode) {
+  // Not fatal (the OTP flow must keep working), but portfolio access stays closed.
+  logger.warn("INVESTOR_ACCESS_CODE is not set - /portfolio access is disabled until it is configured");
+}
+router.use(createPortfolioAccessRouter(portfolioAccessEnv));
 
 const requestInfoEnv = loadRequestInfoEnv();
 const requestInfoStore = new FileOtpChallengeStore(path.join(requestInfoEnv.dataDir, "request-info-challenges.json"));
