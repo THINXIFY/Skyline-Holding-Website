@@ -75,7 +75,7 @@ describe("thesis content", () => {
 
   it("closing CTA: introduction request -> /contact, pitch deck -> the published PDF, no co-investment button", () => {
     expect(CLOSING_CTA.primary.href).toBe("/contact");
-    expect(CLOSING_CTA.deck.href).toBe("/documents/Skyline-Holding-slu-pitch-deck.pdf");
+    expect(CLOSING_CTA.deck.href).toBe("/documents/Skyline_Holding_Company_Profile_2026_PDF.pdf");
     expect(Object.keys(CLOSING_CTA)).not.toContain("secondary");
   });
 });

@@ -191,7 +191,7 @@ export const CLOSING_CTA = {
   // The introduction request goes to the site's real contact route.
   primary: { label: "Request an introduction", href: "/contact" },
   // The real pitch deck already published with the site (public/documents).
-  deck: { label: "Read pitch deck", href: "/documents/Skyline-Holding-slu-pitch-deck.pdf" },
+  deck: { label: "Read pitch deck", href: "/documents/Skyline_Holding_Company_Profile_2026_PDF.pdf" },
 } as const;
 
 export const CONFIDENTIAL_NOTE = {
